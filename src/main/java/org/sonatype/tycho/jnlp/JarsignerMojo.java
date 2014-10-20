@@ -20,6 +20,8 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -229,6 +231,11 @@ public class JarsignerMojo
      * @parameter expression="${jarsigner.tsa}"
      */
     private String tsa;
+    
+    /**
+     * Skip signing already signed jars?
+     */
+    private boolean skipSigningAlreadySignedJars = true;
 
     public void execute()
         throws MojoExecutionException, MojoFailureException
@@ -274,7 +281,7 @@ public class JarsignerMojo
                     {
                         getLog().info( "Jar file :" + archive.getAbsolutePath() );
                         addSecurityAttributes( archive );
-                        signFile( archive );
+                        signFileIfNecessary( archive );
                     }
                     catch ( MojoExecutionException e )
                     {
@@ -300,7 +307,7 @@ public class JarsignerMojo
                     {
                         getLog().info( "Jar file :" + archive.getAbsolutePath() );
                         addSecurityAttributes( archive );
-                        signFile( archive );
+                        signFileIfNecessary( archive );
                     }
                     catch ( MojoExecutionException e )
                     {
@@ -473,6 +480,25 @@ public class JarsignerMojo
         }
     }
 
+    /**
+     * Sign file if file is not already signed
+     * 
+     * @param archive The archive file to be signed
+     */
+    void signFileIfNecessary( File archive )
+            throws MojoExecutionException
+    {
+        if ( skipSigningAlreadySignedJars && isAlreadySigned(archive) )
+        {
+            getLog().info( "Skipping jarsigner for already-signed jar " + archive.getAbsolutePath() );
+        }
+        else
+        {
+            getLog().info( "Executing jarsigner on " + archive.getAbsolutePath() );
+            signFile( archive );
+        }
+    }
+    
     /**
      * Sign file
      * 
@@ -738,5 +764,32 @@ public class JarsignerMojo
         }
 
         return null;
+    }
+    
+    /**
+     * Checks if given jar archive is already signed
+     * 
+     * @param archive archive to check
+     * @return <tt>true</tt> if jar is already signed
+     */
+    private boolean isAlreadySigned(File archive) throws MojoExecutionException
+    {
+        try
+        {
+            ZipFile zipFile = new ZipFile( archive );
+            try
+            {
+                ZipEntry existingSignatureFile = zipFile.getEntry( String.format( "META-INF/%s.SF", sigfile ) );
+                return existingSignatureFile != null;
+            }
+            finally
+            {
+                zipFile.close();
+            }
+        }
+        catch ( IOException e )
+        {
+            throw new MojoExecutionException( "Could not determine whether file was already signed", e );
+        }
     }
 }

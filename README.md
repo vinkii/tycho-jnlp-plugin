@@ -75,6 +75,8 @@ public class WebStartMain
 }
  ```
 
+By default signed JAR files will not be re-signed. To turn re-signing JAR files 
+${jarsigner.skipSigningAlreadySignedJars} should be set to false. 
 
 
 
