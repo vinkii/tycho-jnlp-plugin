@@ -30,7 +30,7 @@ This mojo honours most of properties used by maven-jarsigner-plugin
 ${jarsigner.digestalg} must be set to SHA-1 when using a jarsigner form a JDK7 
 because the default signing algorithm is now SHA256.
 
-The [JAR File Manifest Attributes](http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/manifest.html) 
+The [JAR File Manifest Attributes](http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/manifest.html) 
 for Security can also be added to each jar file. The attributes can be configured
 by the properties :
 
@@ -45,7 +45,7 @@ by the properties :
 If one of these properties is specified, the signatures of the jar files are 
 removed because the jar files are modified.
 
-The [JNLP file can also be signed](http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/signedJNLP.html) 
+The [JNLP file can also be signed](http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/signedJNLP.html) 
 if the property ${jarsigner.signJnlpFile} is set to true. The signed JNLP file is
 created in the folder JNLP-INF in the jar jar file of the main class. The file is
 APPLICATION_TEMPLATE.JNLP for a template and is APPLICATION.JNLP if the file is 
