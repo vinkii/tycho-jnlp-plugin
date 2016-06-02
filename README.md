@@ -13,7 +13,7 @@ Performs ${property} substitution in the template, where property values can
 come either from pom.xml or from application's config.ini file. The latter is 
 useful to pass -Declipse.product, -Declipse.application and -Dosgi.bundles 
 properties, which are usually required to launch equinox-based application 
-using Java WebStart. Note that the product filename has to be "<artifactId>.product".
+using Java WebStart. Note that the product filename has to be "&lt;artifactId>.product".
 For example see [product integration test](src/it/product), [template JNLP](src/it/product/src/main/jnlp/install.jnlp) and [POM](src/it/product/pom.xml).
 
 Adds &lt;resources/> node with &lt;jar/> subelements to the generated JNLP file.
