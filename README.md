@@ -79,8 +79,4 @@ public class WebStartMain
 By default signed JAR files will not be re-signed. To turn re-signing JAR files 
 ${jarsigner.skipSigningAlreadySignedJars} should be set to false. 
 
-
-
-
-
-
+If you want this in tycho-extras and maintance by eclipse you can vote here [Bug 351194](https://bugs.eclipse.org/bugs/show_bug.cgi?id=351194).
