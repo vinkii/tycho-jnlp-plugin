@@ -18,6 +18,7 @@
     <p2.repo>http://download.eclipse.org/eclipse/updates/3.5</p2.repo>
     
     <forceContextQualifier>test-build</forceContextQualifier>
+    <jarsigner.alias>TEST</jarsigner.alias>
   </properties>
 
   <repositories>
